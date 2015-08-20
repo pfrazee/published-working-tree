@@ -15,5 +15,16 @@
     "tape": "~3.0.0"
   },
   "author": "Paul Frazee <pfrazee@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pfraze/published-working-tree.git"
+  },
+  "bugs": {
+    "url": "https://github.com/pfraze/published-working-tree/issues"
+  },
+  "homepage": "https://github.com/pfraze/published-working-tree#readme"
 }
