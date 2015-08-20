@@ -1,0 +1,19 @@
+{
+  "name": "published-working-tree",
+  "version": "0.0.0",
+  "description": "Read file-trees from disk and compare against a published tree",
+  "main": "index.js",
+  "scripts": {
+    "test": "set -e; for t in test/*.js; do node $t; done"
+  },
+  "dependencies": {
+    "multicb": "^1.1.0"
+  },
+  "devDependencies": {
+    "osenv": "~0.1.0",
+    "rimraf": "~2.2.8",
+    "tape": "~3.0.0"
+  },
+  "author": "Paul Frazee <pfrazee@gmail.com>",
+  "license": "MIT"
+}
