@@ -13,6 +13,7 @@ pwt.TYPE // 'directory' or 'file'
 pwt.STAT // fs.Stat
 pwt.NAME // String
 pwt.PATH // Path
+pwt.PUBLISHED // Boolean
 pwt.MODIFIED // Boolean
 pwt.DELETED // Boolean
 pwt.ACTIVE // Boolean

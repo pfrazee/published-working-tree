@@ -3,14 +3,15 @@ var path = require('path')
 var multicb = require('multicb')
 
 // symbols, used in the file-trees to create non-string keys which wont collide with filenames
-var TYPE     = exports.TYPE     = Symbol('type')
-var STAT     = exports.STAT     = Symbol('stat')
-var NAME     = exports.NAME     = Symbol('name')
-var PATH     = exports.PATH     = Symbol('path')
-var MODIFIED = exports.MODIFIED = Symbol('modified')
-var DELETED  = exports.DELETED  = Symbol('deleted')
-var ACTIVE   = exports.ACTIVE   = Symbol('active')
-var DIRREAD  = exports.DIRREAD  = Symbol('dirread')
+var TYPE      = exports.TYPE      = Symbol('type')
+var STAT      = exports.STAT      = Symbol('stat')
+var NAME      = exports.NAME      = Symbol('name')
+var PATH      = exports.PATH      = Symbol('path')
+var PUBLISHED = exports.PUBLISHED = Symbol('published')
+var MODIFIED  = exports.MODIFIED  = Symbol('modified')
+var DELETED   = exports.DELETED   = Symbol('deleted')
+var ACTIVE    = exports.ACTIVE    = Symbol('active')
+var DIRREAD   = exports.DIRREAD   = Symbol('dirread')
 
 // load working tree from published tree
 var loadworking =
@@ -50,13 +51,14 @@ exports.read = function (filepath, working, published, cb) {
     }
 
     // copy state
-    working[TYPE]     = stat.isDirectory() ? 'directory' : 'file'
-    working[NAME]     = path.basename(filepath)
-    working[PATH]     = filepath
-    working[STAT]     = stat
-    working[MODIFIED] = isobj(published) && (published.mtime != stat.mtime.getTime())
-    working[DELETED]  = false
-    working[ACTIVE]   = isobj(published)
+    working[TYPE]      = stat.isDirectory() ? 'directory' : 'file'
+    working[NAME]      = path.basename(filepath)
+    working[PATH]      = filepath
+    working[STAT]      = stat
+    working[MODIFIED]  = isobj(published) && (published.mtime != stat.mtime.getTime())
+    working[DELETED]   = false
+    working[PUBLISHED] = isobj(published)
+    working[ACTIVE]    = isobj(published)
 
     if (stat.isDirectory() && published) {
       working[DIRREAD] = true
@@ -96,7 +98,7 @@ exports.change = function (item) {
   if (item[ACTIVE]) {
     if (item[MODIFIED])
       return 'mod'
-    else if (!item[DELETED])
+    else if (!item[PUBLISHED] && !item[DELETED])
       return 'add'
   } else {
     if (item[DELETED])
@@ -126,13 +128,14 @@ exports.changes = function (working) {
 // for when a node was not found on disk, that is present in the published tree
 // this function copies over the attributes and flags `deleted`
 function notfoundCopy (filepath, w, p) {
-  w[TYPE]     = (!p.link) ? 'directory' : 'file'
-  w[NAME]     = path.basename(filepath)
-  w[PATH]     = filepath
-  w[STAT]     = null
-  w[MODIFIED] = false
-  w[DELETED]  = true
-  w[ACTIVE]   = true // was published, should be active
+  w[TYPE]      = (!p.link) ? 'directory' : 'file'
+  w[NAME]      = path.basename(filepath)
+  w[PATH]      = filepath
+  w[STAT]      = null
+  w[MODIFIED]  = false
+  w[DELETED]   = true
+  w[PUBLISHED] = true // was published
+  w[ACTIVE]    = true // was published, should be active
 
   // recurse
   for (var k in p) {
