@@ -95,6 +95,8 @@ exports.read = function (filepath, working, published, cb) {
 // gets change-state of item
 var change =
 exports.change = function (item) {
+  if (item[TYPE] == 'directory')
+    return
   if (item[ACTIVE]) {
     if (item[MODIFIED])
       return 'mod'
