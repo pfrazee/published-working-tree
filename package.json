@@ -1,6 +1,6 @@
 {
   "name": "published-working-tree",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Read file-trees from disk and compare against a published tree",
   "main": "index.js",
   "scripts": {
