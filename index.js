@@ -47,7 +47,7 @@ exports.read = function (filepath, working, published, cb) {
       // file not found, copy over info from the published tree, if relevant
       if (isobj(published))
         notfoundCopy(filepath, working, published)
-      return
+      return cb()
     }
 
     // copy state
