@@ -103,7 +103,7 @@ exports.change = function (item) {
     else if (!item[PUBLISHED] && !item[DELETED])
       return 'add'
   } else {
-    if (item[DELETED])
+    if (item[PUBLISHED])
       return 'del'
   }
 }
